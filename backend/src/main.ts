@@ -10,7 +10,7 @@ import * as helmet from 'helmet';
 import { AppModule } from './app.module';
 
 export async function setupSwagger(app: INestApplication, prefix?: string) {
-  let options = new DocumentBuilder().setTitle('ZenBrief Backend').setVersion('1.1').addBearerAuth();
+  let options = new DocumentBuilder().setTitle('Actkathon Backend').setVersion('1.1').addBearerAuth();
   if (prefix) options = options.addServer(prefix);
   const document = SwaggerModule.createDocument(app, options.build());
   SwaggerModule.setup('api', app, document);
