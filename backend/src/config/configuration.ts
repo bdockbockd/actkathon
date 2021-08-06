@@ -6,5 +6,6 @@ export default () => ({
   },
   jwt: {
     secretKey: process.env.JWT_SECRET,
-  }
+  },
+  longdoMapKey: process.env.LONGDO_MAP_KEY,
 });

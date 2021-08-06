@@ -3,6 +3,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
+import AreaModule from './area/area.module';
 import { AuthModule } from './auth/auth.module';
 import configuration from './config/configuration';
 import { HttpMicroserviceModule } from './http-microservice/http-microservice.module';
@@ -26,6 +27,7 @@ import { RepresentativeModule } from './user/representative/user.module';
       inject: [ConfigService],
     }),
     AuthModule,
+    AreaModule,
     // UserModule,
     RepresentativeModule,
     CitizenModule,

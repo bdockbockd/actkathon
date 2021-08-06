@@ -24,6 +24,7 @@
     "sls:remove": "sls remove"
   },
   "dependencies": {
+    "@nestjs/axios": "^0.0.1",
     "@nestjs/common": "^7.6.15",
     "@nestjs/config": "^0.6.3",
     "@nestjs/core": "^7.6.15",
@@ -35,9 +36,6 @@
     "@sentry/node": "^6.3.5",
     "@types/body-parser": "^1.19.0",
     "@types/passport-jwt": "^3.0.5",
-    "aws-lambda": "^1.0.6",
-    "aws-sdk": "^2.888.0",
-    "aws-serverless-express": "^3.4.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "class-sanitizer": "^1.0.1",
@@ -52,7 +50,6 @@
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^6.6.6",
-    "stripe": "^8.145.0",
     "swagger-ui-express": "^4.1.6"
   },
   "devDependencies": {

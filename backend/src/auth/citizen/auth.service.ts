@@ -12,7 +12,6 @@ export class AuthService {
   // TODO Upgrade validation in the future
   async validateUser(credentials: AuthCredentialsDto): Promise<Citizen> {
     const user: Citizen = await this.userService.findByPhone(credentials.phoneNumber);
-    console.log(user);
     if (user) {
       return user;
     }

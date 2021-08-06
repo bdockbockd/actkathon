@@ -4,7 +4,6 @@ import { NestFactory } from '@nestjs/core';
 import { ExpressAdapter } from '@nestjs/platform-express';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import * as Sentry from '@sentry/node';
-import { eventContext } from 'aws-serverless-express/middleware';
 import { Express } from 'express';
 import * as helmet from 'helmet';
 import { AppModule } from './app.module';
@@ -20,7 +19,6 @@ export async function bootstrap(expressApp?: Express): Promise<INestApplication>
   let app: INestApplication;
   if (expressApp) {
     app = await NestFactory.create(AppModule, new ExpressAdapter(expressApp));
-    app.use(eventContext());
   } else {
     app = await NestFactory.create(AppModule);
   }
