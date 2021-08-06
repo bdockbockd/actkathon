@@ -3,9 +3,9 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { AxiosResponse } from 'axios';
 import { Model } from 'mongoose';
+import { Rep, RepDocument } from '../user/representative/user.schema';
 import { Area, AreaDocument } from './area.schema';
 import { LocationDto, ReverseGeocodeDto } from './location.dto';
-import { Rep, RepDocument } from './rep.schema';
 
 @Injectable()
 export class AreaService {
@@ -35,8 +35,6 @@ export class AreaService {
   }
 
   async findLocation(location: LocationDto): Promise<ReverseGeocodeDto> {
-    // return;
-    // 31e8f64bd340c1e18ac7d2115ff1adbe
     const param = {
       lon: location.lon,
       lat: location.lat,
@@ -57,5 +55,10 @@ export class AreaService {
 
   async findRepresentative(filter: Partial<Rep>) {
     return this.repModel.find(filter).exec();
+  }
+
+  async findRepresentativefromLocation(location: ReverseGeocodeDto) {
+    // TODO : Check findone is sample or not
+    return this.repModel.findOne({ province: location.province })
   }
 }

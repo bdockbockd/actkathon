@@ -1,21 +1,19 @@
-import { Body, Controller, Get } from '@nestjs/common';
+import { Controller, Get } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-import { AuthCredentialsDto } from 'src/auth/auth.dto';
+import { UserId } from 'src/decorators/user-id.decorator';
 // import { UserId } from 'src/decorators/user-id.decorator';
 // import { RolesGuard } from 'src/guards/roles.guard';
-import { UserService } from './user.service';
+import { RepresentativeService } from './user.service';
 
 @ApiBearerAuth()
 @ApiTags('Representative')
 @Controller('representative')
 // @UseGuards(RolesGuard)
 export class UserController {
-  constructor(private readonly representativeService: UserService) {}
+  constructor(private readonly representativeService: RepresentativeService) {}
 
   @Get('me')
-  me(@Body() dto: AuthCredentialsDto) {
-    return this.representativeService.me(dto.phoneNumber);
+  me(@UserId() id: string) {
+    return this.representativeService.me(id);
   }
-
-  
 }

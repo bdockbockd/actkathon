@@ -8,27 +8,30 @@ import { Citizen, CitizenDocument } from './user.schema';
 // const INVITE_BASE_URL = 'https://zenbrief.com/invite';
 
 @Injectable()
-export class UserService {
+export class CitizenService {
   constructor(
     @InjectModel(Citizen.name) private citizenModel: Model<CitizenDocument>,
     private configService: ConfigService,
   ) {}
 
   findByPhone(phone: string) {
-    phone = phone.replace('+', '');
+    // phone = phone.replace('+', '');
     return this.citizenModel.findOne({ phoneNumber: phone }).exec();
   }
 
-  async me(phone: string) {
-    const user = await this.findByPhone(phone);
-    // const credit = await this.billService.getCurrentCreditByTeamOwner(String(user.teamOwner));
-    return {
-      phoneNumber: user.phoneNumber,
-    };
+  findById(id: string) {
+    return this.citizenModel.findById(id).exec();
+  }
+
+  async me(id: string) {
+    const user = await this.findById(id);
+    return user
   }
 
   create(user: Citizen) {
     const newUser = new this.citizenModel(user);
     return newUser.save();
   }
+
+  
 }

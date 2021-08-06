@@ -21,17 +21,17 @@ export class AreaController {
     return this.areaService.getAreaList(province);
   }
 
-  @ApiQuery({ name: 'lat', required: false })
-  @ApiQuery({ name: 'lon', required: false })
-  @Get('findLocation')
-  async findLocation(@Query('lat', ParseIntPipe) lat: number, @Query('lon', ParseIntPipe) lon: number) {
-    return await this.areaService.findLocation({ lat, lon });
-  }
+  // @ApiQuery({ name: 'lat', required: false })
+  // @ApiQuery({ name: 'lon', required: false })
+  // @Get('findLocation')
+  // async findLocation(@Query('lat', ParseIntPipe) lat: number, @Query('lon', ParseIntPipe) lon: number) {
+  //   return await this.areaService.findLocation({ lat, lon });
+  // }
 
   @Get('findLocalRepresentative')
   @ApiQuery({ name: 'lat', required: false })
   @ApiQuery({ name: 'lon', required: false })
-  async findLocalRepresentatives(@Query('lat', ParseIntPipe) lat: number, @Query('lon', ParseIntPipe) lon: number) {
+  async findLocalRepresentatives(@Query('lat') lat: string, @Query('lon') lon: string) {
     let { province, district, subdistrict }: ReverseGeocodeDto = await this.areaService.findLocation({ lat, lon });
     province = province.replace("จ.","จังหวัด")
     return await this.areaService.findRepresentative({ province });

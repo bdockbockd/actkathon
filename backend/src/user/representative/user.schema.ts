@@ -1,35 +1,39 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { ApiProperty } from '@nestjs/swagger';
-import { IsPhoneNumber, IsString, MinLength } from 'class-validator';
+import { IsPhoneNumber } from 'class-validator';
 import * as mongoose from 'mongoose';
 import { Document } from 'mongoose';
 
-export type RepresentativeDocument = Representative & Document;
+export type RepDocument = Rep & Document;
 
 @Schema({ timestamps: true })
-export class Representative {
+export class Rep {
   _id?: mongoose.Schema.Types.ObjectId;
 
-  @IsString()
-  @MinLength(1)
-  @ApiProperty({ required: true, default: 'Nonzaka' })
-  @Prop({ required: true, type: String })
-  firstName: string;
+  @Prop({ type: String, unique: true })
+  name: string;
 
-  @IsString()
-  @MinLength(1)
-  @ApiProperty({ required: true, default: 'Noruma' })
-  @Prop({ required: true, type: String })
-  lastName: string;
+  @Prop({ type: String })
+  imageProfileURL: string;
+
+  @Prop({ type: String })
+  profileURL: string;
+
+  @Prop({ type: String })
+  id: string;
+
+  @Prop({ type: String })
+  party: string;
+
+  @Prop({ type: String })
+  province: string;
+
+  // areaNumber
+  @Prop({ type: String })
+  area: string;
 
   @IsPhoneNumber('TH')
-  @ApiProperty({ required: true, default: '+66918814300' })
-  @Prop({ required: true, type: Number, unique: true })
+  @Prop({ required: true, type: String, unique: true, default: '' })
   phoneNumber: string;
-
-  // @IsUrl()
-  @Prop({ type: String })
-  profileImage: string;
 }
 
-export const RepresentativeSchema = SchemaFactory.createForClass(Representative);
+export const RepSchema = SchemaFactory.createForClass(Rep);

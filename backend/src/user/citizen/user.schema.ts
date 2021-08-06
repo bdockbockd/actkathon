@@ -12,7 +12,7 @@ export class Citizen {
 
   @IsPhoneNumber('TH')
   @ApiProperty({ required: true, default: '+66918814300' })
-  @Prop({ required: true, type: Number, unique: true })
+  @Prop({ required: true, type: String, unique: true })
   phoneNumber: string;
 }
 

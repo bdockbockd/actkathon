@@ -7,6 +7,7 @@ import AreaModule from './area/area.module';
 import { AuthModule } from './auth/auth.module';
 import configuration from './config/configuration';
 import { HttpMicroserviceModule } from './http-microservice/http-microservice.module';
+import { ReportModule } from './report/report.module';
 import { CitizenModule } from './user/citizen/user.module';
 import { RepresentativeModule } from './user/representative/user.module';
 
@@ -28,6 +29,7 @@ import { RepresentativeModule } from './user/representative/user.module';
     }),
     AuthModule,
     AreaModule,
+    ReportModule,
     // UserModule,
     RepresentativeModule,
     CitizenModule,
