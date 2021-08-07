@@ -1,7 +1,9 @@
-import { forwardRef, Inject, Injectable } from '@nestjs/common';
+import { BadRequestException, forwardRef, Inject, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { AreaService } from 'src/area/area.service';
+import { ReverseGeocodeDto } from 'src/area/location.dto';
+import { Citizen } from 'src/user/citizen/user.schema';
 import { CitizenService } from 'src/user/citizen/user.service';
 import { Rep } from 'src/user/representative/user.schema';
 import { VoteService } from 'src/vote/vote.service';
@@ -22,21 +24,32 @@ export class ReportService {
   ) {}
 
   async create(report: ReportDto, creatorId: string) {
-    const location = await this.areaService.findLocation({ lat: report.latitude, lon: report.longitude });
-    const creator = await this.citizenService.findById(creatorId);
-    // if (report.maintainerId) {
-    //   const maintainer: Rep = await this.representativeService.findById(report.maintainerId)
-    //   const newReport = new this.reportModel({ ...report, location, creator, maintainer });
-    //   return newReport.save();
-    // } else {
-    const maintainer: Rep = await this.areaService.findRepresentativefromLocation(location);
-    const newReport = new this.reportModel({ ...report, location, creator, maintainer });
-    return newReport.save();
+    let location: ReverseGeocodeDto;
+    let creator: Citizen;
+    let maintainer: Rep;
+    location = await this.areaService.findLocation({ lat: report.latitude, lon: report.longitude });
+    if (Object.keys(location).length == 0) {
+      throw new BadRequestException('Location not found');
+    }
+    try {
+      creator = await this.citizenService.findById(creatorId);
+      // if (report.maintainerId) {
+      //   const maintainer: Rep = await this.representativeService.findById(report.maintainerId)
+      //   const newReport = new this.reportModel({ ...report, location, creator, maintainer });
+      //   return newReport.save();
+      // } else {
+      maintainer = await this.areaService.findRepresentativefromLocation(location);
+    //   console.log({ ...report, location, creator, maintainer })
+      const newReport = new this.reportModel({ ...report, location, creator, maintainer });
+      return newReport.save();
+    } catch {
+      throw new BadRequestException('Create report error');
+    }
     // }
   }
 
   async vote(reportId: string, userId: string) {
-    //   TODO handle atomic transaction
+    // TODO handle atomic transaction
     await this.voteService.createVote(userId, reportId);
     await this.reportModel.findByIdAndUpdate(reportId, { $inc: { vote: 1 } }).exec();
   }

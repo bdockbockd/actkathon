@@ -1,7 +1,6 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { IsLatitude, IsLongitude, IsNotEmpty } from 'class-validator';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { IsBase64, IsLatitude, IsLongitude, IsNotEmpty, IsString } from 'class-validator';
 export class ReportDto {
-
   @IsNotEmpty()
   @ApiProperty({ required: true, type: String })
   topic: string;
@@ -18,10 +17,11 @@ export class ReportDto {
   @ApiProperty({ required: true, default: '100' })
   longitude: string;
 
+  @IsString()
   @ApiProperty({ required: true, default: 'สยาม' })
   locationName: string;
 
-  @ApiProperty()
+  @IsBase64()
+  @ApiPropertyOptional()
   imageFile: string;
-
 }

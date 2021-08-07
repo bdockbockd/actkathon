@@ -15,7 +15,6 @@ export class CitizenService {
   ) {}
 
   findByPhone(phone: string) {
-    // phone = phone.replace('+', '');
     return this.citizenModel.findOne({ phoneNumber: phone }).exec();
   }
 

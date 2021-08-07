@@ -8,6 +8,7 @@ import { Express } from 'express';
 import * as helmet from 'helmet';
 import { AppModule } from './app.module';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
+import { urlencoded, json } from 'express';
 
 export async function setupSwagger(app: INestApplication, prefix?: string) {
   let options = new DocumentBuilder().setTitle('Actkathon Backend').setVersion('1.1').addBearerAuth();
@@ -26,6 +27,9 @@ export async function bootstrap(expressApp?: Express): Promise<INestApplication>
   const configService: ConfigService = app.get(ConfigService);
   app.use(helmet());
   app.enableCors();
+
+  app.use(json({ limit: '50mb' }));
+  app.use(urlencoded({ extended: true, limit: '50mb' }));
 
   app.useGlobalGuards(new JwtAuthGuard(app.get(Reflector)));
 

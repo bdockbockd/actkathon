@@ -47,7 +47,7 @@ export class Report {
   @Prop({ default: 0, type: Number })
   vote: number;
 
-  @Prop({ required: true, default: 'สยาม' })
+  @Prop({ required: true })
   locationName: string;
 
   @Prop({ type: String })

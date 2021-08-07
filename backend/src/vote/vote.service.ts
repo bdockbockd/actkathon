@@ -3,7 +3,7 @@ import { InjectModel } from '@nestjs/mongoose';
 // import endOfDay from 'date-fns/endOfDay';
 // import startOfDay from 'date-fns/startOfDay';
 import { Model } from 'mongoose';
-import { Report, ReportDocument } from 'src/report/report.schema';
+import { Report } from 'src/report/report.schema';
 import { ReportService } from 'src/report/report.service';
 import { Citizen } from 'src/user/citizen/user.schema';
 import { CitizenService } from 'src/user/citizen/user.service';
@@ -54,7 +54,7 @@ export class VoteService {
     // const { report, voter } = await this.getVoteAndReport(voterId, reportId);
     const canVote = await this.isAbleToReport(voterId);
     if (canVote) {
-      const newVote = new this.voteModel({ voterId, reportId });
+      const newVote = new this.voteModel({ voter: voterId, report: reportId });
       return newVote.save();
     } else {
       throw new BadRequestException('Vote denied, already voted');
