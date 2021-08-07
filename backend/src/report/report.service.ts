@@ -55,7 +55,7 @@ export class ReportService {
   }
 
   async getReports(filter?: any) {
-    return this.reportModel.find(filter);
+    return this.reportModel.find(filter).populate('creator').populate('maintainer');
   }
 
   async rankReport() {
