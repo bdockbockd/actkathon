@@ -59,6 +59,7 @@ export class AreaService {
 
   async findRepresentativefromLocation(location: ReverseGeocodeDto) {
     // TODO : Check findone is sample or not
-    return this.repModel.findOne({ province: location.province })
+    const province = location.province.replace("จ.","จังหวัด")
+    return this.repModel.findOne({ province: province }).exec()
   }
 }

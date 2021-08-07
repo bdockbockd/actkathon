@@ -1,6 +1,7 @@
 import { CanActivate, ExecutionContext, ForbiddenException, Injectable, RequestMethod } from '@nestjs/common';
 import { METHOD_METADATA, PATH_METADATA } from '@nestjs/common/constants';
 import { Reflector } from '@nestjs/core';
+import { UserRole } from 'aws-sdk/clients/workmail';
 
 @Injectable()
 export class RolesGuard implements CanActivate {
@@ -17,7 +18,7 @@ export class RolesGuard implements CanActivate {
     const roles = this.reflector.getAllAndMerge<string[]>('roles', [context.getHandler(), context.getClass()]);
     if (roles.length > 0) {
       const request = context.switchToHttp().getRequest();
-      const role = request.role;
+      const role: UserRole = request.user.role;
       // const user = await this.userService.findByPhone(request.role);
       if (!roles.includes(role)) {
         const path = this.reflector.get<string>(PATH_METADATA, context.getHandler());

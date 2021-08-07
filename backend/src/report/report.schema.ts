@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { IsDateString, IsLatitude, IsLongitude } from 'class-validator';
+import { IsLatitude, IsLongitude } from 'class-validator';
 import * as mongoose from 'mongoose';
 import { Document } from 'mongoose';
 import { ReverseGeocodeDto } from 'src/area/location.dto';
@@ -16,7 +16,7 @@ export class Report {
   @Prop({ required: true, type: ReverseGeocodeDto })
   location: Partial<ReverseGeocodeDto>;
 
-  @Prop({ required: true , type: String})
+  @Prop({ required: true, type: String })
   topic: string;
 
   @Prop({ required: true, type: String })
@@ -24,7 +24,6 @@ export class Report {
 
   @Prop({ required: true, default: ReportStatus.Initiated })
   status: ReportStatus;
-
 
   @IsLatitude()
   @Prop({ required: true, type: String })
@@ -38,13 +37,14 @@ export class Report {
   @Prop({ required: true, ref: 'Rep' })
   maintainer: Rep;
 
-  @Prop({required: true, ref: 'Citizen'})
-  creator: Citizen
-
+  @Prop({ required: true, ref: 'Citizen' })
+  creator: Citizen;
 
   @Prop({ default: 0, type: Number })
   vote: number;
 
+  @Prop({ type: String })
+  imageURL: string;
 }
 
 export const ReportSchema = SchemaFactory.createForClass(Report);

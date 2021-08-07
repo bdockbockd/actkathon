@@ -32,8 +32,8 @@ export class Rep {
   area: string;
 
   @IsPhoneNumber('TH')
-  @Prop({ required: true, type: String, unique: true, default: '' })
-  phoneNumber: string;
+  @Prop({ type: String, unique: true, default: '' })
+  phoneNumber?: string;
 }
 
 export const RepSchema = SchemaFactory.createForClass(Rep);

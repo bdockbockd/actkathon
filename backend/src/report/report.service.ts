@@ -6,6 +6,7 @@ import { CitizenService } from 'src/user/citizen/user.service';
 import { Rep } from 'src/user/representative/user.schema';
 import { RepresentativeService } from 'src/user/representative/user.service';
 import { ReportDto } from './report.dto';
+import { ReportStatus } from './report.enum';
 import { Report, ReportDocument } from './report.schema';
 
 // const INVITE_TTL_MINS = 60 * 24 * 7;
@@ -29,20 +30,35 @@ export class ReportService {
     //   return newReport.save();
     // } else {
     const maintainer: Rep = await this.areaService.findRepresentativefromLocation(location);
+    console.log(location);
+    console.log(creator);
+    console.log(maintainer);
     const newReport = new this.reportModel({ ...report, location, creator, maintainer });
     return newReport.save();
     // }
   }
 
-  async vote(reportId: string, citizenId: string) {
-    //   TODO
-    const citizen = await this.citizenService.findById(citizenId);
-    if (citizen) {
-      this.reportModel.findByIdAndUpdate(reportId, { $inc: { vote: 1 } });
-    }
+  async vote(reportId: string, userId: string) {
+    //   TODO save in user collection which report they like
+    console.log(reportId)
+    await this.reportModel.findByIdAndUpdate(reportId, { $inc: { vote: 1 } }).exec();
   }
 
   async getReports(filter?: any) {
     return this.reportModel.find(filter);
+  }
+
+  async aggGroup() {
+    return this.reportModel.aggregate([
+      {
+        $match: {
+          status: {
+            $ne: ReportStatus.Finished,
+          },
+        },
+      },
+      { $group: { _id: '$maintainer', count: { $sum: 1 }},
+      { $sort: { count: -1 } },
+    ]);
   }
 }
