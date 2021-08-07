@@ -40,7 +40,7 @@ export class ReportService {
 
   async vote(reportId: string, userId: string) {
     //   TODO save in user collection which report they like
-    console.log(reportId)
+    console.log(reportId);
     await this.reportModel.findByIdAndUpdate(reportId, { $inc: { vote: 1 } }).exec();
   }
 
@@ -57,7 +57,7 @@ export class ReportService {
           },
         },
       },
-      { $group: { _id: '$maintainer', count: { $sum: 1 }},
+      { $group: { _id: '$maintainer', count: { $sum: 1 } } },
       { $sort: { count: -1 } },
     ]);
   }
