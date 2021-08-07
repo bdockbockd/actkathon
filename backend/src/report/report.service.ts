@@ -69,10 +69,10 @@ export class ReportService {
           from: 'reps',
           localField: '_id',
           foreignField: '_id',
-          as: 'reps',
+          as: 'maintainer',
         },
       },
-      { $unwind: '$reps' },
+      { $unwind: '$maintainer' },
     ]);
   }
 
