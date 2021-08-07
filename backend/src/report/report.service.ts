@@ -77,6 +77,6 @@ export class ReportService {
   }
 
   findById(id: string): Promise<Report> {
-    return this.reportModel.findById(id).exec();
+    return this.reportModel.findById(id).populate('creator').populate('maintainer').exec();
   }
 }
