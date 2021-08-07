@@ -68,6 +68,12 @@ export class ReportController {
   }
 
   @PublicAPI()
+  @Get('fetch/:id')
+  fetchReport(@Param('id') id:string) {
+    return this.reportService.findById(id);
+  }
+
+  @PublicAPI()
   @Get('fetch/nearby')
   @ApiQuery({ name: 'lat', required: false })
   @ApiQuery({ name: 'lon', required: false })
