@@ -33,14 +33,9 @@ export class ReportService {
     }
     try {
       creator = await this.citizenService.findById(creatorId);
-      // if (report.maintainerId) {
-      //   const maintainer: Rep = await this.representativeService.findById(report.maintainerId)
-      //   const newReport = new this.reportModel({ ...report, location, creator, maintainer });
-      //   return newReport.save();
-      // } else {
       maintainer = await this.areaService.findRepresentativefromLocation(location);
-    //   console.log({ ...report, location, creator, maintainer })
-      const newReport = new this.reportModel({ ...report, location, creator, maintainer });
+      const reportObject: Partial<Report> = { ...report, location, creator, maintainer };
+      const newReport = new this.reportModel(reportObject);
       return newReport.save();
     } catch {
       throw new BadRequestException('Create report error');

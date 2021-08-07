@@ -37,7 +37,6 @@ export class ReportController {
   @Roles(UserRole.NCZ)
   @Post('create')
   async create(@UserId() userId: string, @Body() report: ReportDto): Promise<Report> {
-    //   userId is phone
     return this.reportService.create(report, userId);
   }
 

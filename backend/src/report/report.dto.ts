@@ -22,6 +22,7 @@ export class ReportDto {
   locationName: string;
 
   @IsBase64()
-  @ApiPropertyOptional()
+  @ApiProperty({ required: true })
   imageFile: string;
+
 }

@@ -14,12 +14,11 @@ export class Report {
   _id?: mongoose.Schema.Types.ObjectId;
 
   @Prop({ required: true, type: ReverseGeocodeDto })
-  location: Partial<ReverseGeocodeDto>;
+  location: Partial<ReverseGeocodeDto> | ReverseGeocodeDto;
 
   //   @Prop()
   //   location: Partial<>
 
-  @Prop({ required: true })
   @Prop({ required: true, type: String })
   topic: string;
 
@@ -50,8 +49,8 @@ export class Report {
   @Prop({ required: true })
   locationName: string;
 
-  @Prop({ type: String })
-  imaegFile: string;
+  @Prop({ required: true })
+  imageFile: string;
 }
 
 export const ReportSchema = SchemaFactory.createForClass(Report);
