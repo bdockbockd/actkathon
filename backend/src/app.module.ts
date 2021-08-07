@@ -10,6 +10,7 @@ import { HttpMicroserviceModule } from './http-microservice/http-microservice.mo
 import { ReportModule } from './report/report.module';
 import { CitizenModule } from './user/citizen/user.module';
 import { RepresentativeModule } from './user/representative/user.module';
+import { VoteModule } from './vote/vote.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { RepresentativeModule } from './user/representative/user.module';
     AuthModule,
     AreaModule,
     ReportModule,
+    VoteModule,
     // UserModule,
     RepresentativeModule,
     CitizenModule,

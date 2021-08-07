@@ -31,10 +31,12 @@ export class AuthService {
   }
 
   async register(credential: AuthCredentialDto): Promise<AuthResponseDto> {
+    
     // const existedUser = await this.citizenService.findByPhone(credential.phoneNumber);
     // if (existedUser) {
     //   throw new BadRequestException('Phone Number already registered');
     // }
+
     await this.citizenService.create(credential);
     return this.login({ phoneNumber: credential.phoneNumber });
   }

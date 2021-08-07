@@ -9,7 +9,7 @@ export type RepDocument = Rep & Document;
 export class Rep {
   _id?: mongoose.Schema.Types.ObjectId;
 
-  @Prop({ type: String, unique: true })
+  @Prop({ type: String })
   name: string;
 
   @Prop({ type: String })
@@ -32,7 +32,7 @@ export class Rep {
   area: string;
 
   @IsPhoneNumber('TH')
-  @Prop({ type: String, unique: true, default: '' })
+  @Prop({ type: String, unique: true })
   phoneNumber?: string;
 }
 

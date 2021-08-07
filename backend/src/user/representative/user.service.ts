@@ -29,7 +29,6 @@ export class RepresentativeService {
   }
 
   async create(credential: RepCredentialDto) {
-    console.log(credential)
     await this.representativeModel
       .updateOne(
         { area: credential.area_number, province: `จังหวัด${credential.province}` },

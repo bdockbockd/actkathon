@@ -1,24 +1,25 @@
-import { Injectable } from '@nestjs/common';
+import { forwardRef, Inject, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { AreaService } from 'src/area/area.service';
 import { CitizenService } from 'src/user/citizen/user.service';
 import { Rep } from 'src/user/representative/user.schema';
-import { RepresentativeService } from 'src/user/representative/user.service';
+import { VoteService } from 'src/vote/vote.service';
 import { ReportDto } from './report.dto';
 import { ReportStatus } from './report.enum';
 import { Report, ReportDocument } from './report.schema';
 
 // const INVITE_TTL_MINS = 60 * 24 * 7;
 // const INVITE_BASE_URL = 'https://zenbrief.com/invite';
-
 @Injectable()
 export class ReportService {
+
   constructor(
     @InjectModel(Report.name) private reportModel: Model<ReportDocument>,
     private readonly citizenService: CitizenService,
     private readonly areaService: AreaService,
-    private readonly representativeService: RepresentativeService,
+    @Inject(forwardRef(() => VoteService))
+    private readonly voteService: VoteService,
   ) {}
 
   async create(report: ReportDto, creatorId: string) {
@@ -30,17 +31,14 @@ export class ReportService {
     //   return newReport.save();
     // } else {
     const maintainer: Rep = await this.areaService.findRepresentativefromLocation(location);
-    console.log(location);
-    console.log(creator);
-    console.log(maintainer);
     const newReport = new this.reportModel({ ...report, location, creator, maintainer });
     return newReport.save();
     // }
   }
 
   async vote(reportId: string, userId: string) {
-    //   TODO save in user collection which report they like
-    console.log(reportId);
+    //   TODO handle atomic transaction
+    await this.voteService.createVote(userId, reportId);
     await this.reportModel.findByIdAndUpdate(reportId, { $inc: { vote: 1 } }).exec();
   }
 
@@ -48,7 +46,7 @@ export class ReportService {
     return this.reportModel.find(filter);
   }
 
-  async aggGroup() {
+  async rankReport() {
     return this.reportModel.aggregate([
       {
         $match: {

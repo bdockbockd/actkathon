@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { IsLatitude, IsLongitude } from 'class-validator';
 import * as mongoose from 'mongoose';
-import { Document } from 'mongoose';
+import { Document, Types } from 'mongoose';
 import { ReverseGeocodeDto } from 'src/area/location.dto';
 import { Citizen } from 'src/user/citizen/user.schema';
 import { Rep } from 'src/user/representative/user.schema';
@@ -16,12 +16,10 @@ export class Report {
   @Prop({ required: true, type: ReverseGeocodeDto })
   location: Partial<ReverseGeocodeDto>;
 
-//   @Prop()
-//   location: Partial<>
+  //   @Prop()
+  //   location: Partial<>
 
   @Prop({ required: true })
-
-
   @Prop({ required: true, type: String })
   topic: string;
 
@@ -40,11 +38,11 @@ export class Report {
   @Prop({ required: true, type: String })
   longitude: string;
 
-  @Prop({ required: true, type: mongoose.Schema.Types.ObjectId,  ref :'Rep' })
-  maintainer: Rep;
+  @Prop({ required: true, type: mongoose.Schema.Types.ObjectId, ref: 'Rep' })
+  maintainer: Rep | Types.ObjectId;
 
-  @Prop({ required: true, type: mongoose.Schema.Types.ObjectId,  ref :'Citizen' })
-  creator: Citizen;
+  @Prop({ required: true, type: mongoose.Schema.Types.ObjectId, ref: 'Citizen' })
+  creator: Citizen | Types.ObjectId;
 
   @Prop({ default: 0, type: Number })
   vote: number;
@@ -54,7 +52,6 @@ export class Report {
 
   @Prop({ type: String })
   imaegFile: string;
-
 }
 
 export const ReportSchema = SchemaFactory.createForClass(Report);

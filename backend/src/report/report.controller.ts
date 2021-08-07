@@ -12,6 +12,7 @@ import { CitizenService } from 'src/user/citizen/user.service';
 import { RepresentativeService } from 'src/user/representative/user.service';
 import { PublicAPI } from '../decorators/public-api.decorator';
 import { ReportDto } from './report.dto';
+import { Report } from './report.schema';
 import { ReportService } from './report.service';
 
 @ApiBearerAuth()
@@ -33,11 +34,9 @@ export class ReportController {
     return this.reportService.vote(reportId, userId);
   }
 
-
-
   @Roles(UserRole.NCZ)
   @Post('create')
-  async create(@UserId() userId: string, @Body() report: ReportDto) {
+  async create(@UserId() userId: string, @Body() report: ReportDto): Promise<Report> {
     //   userId is phone
     return this.reportService.create(report, userId);
   }
@@ -53,7 +52,6 @@ export class ReportController {
       const rep = await this.representativeService.findById(user.userId);
       return this.reportService.getReports({ maintainer: rep });
     }
-
   }
 
   @PublicAPI()
@@ -61,7 +59,7 @@ export class ReportController {
   async rankingRepresentative() {
     //   Optimize with query command in the future
     //   const unfinishedReports = this.reportService.getReports({ status: { $ne: ReportStatus.Finished }})
-    return this.reportService.aggGroup();
+    return this.reportService.rankReport();
   }
 
   @PublicAPI()
