@@ -17,23 +17,25 @@ export class AuthService {
     }
     return null;
   }
+  
 
   async login(credential: AuthCredentialDto): Promise<AuthResponseDto> {
     const user = await this.validateUser(credential);
     if (!user) {
-      throw new UnauthorizedException('Phone Number is not registered yet');
+      return await this.register(credential)
+      // throw new UnauthorizedException('Phone Number is not registered yet');
     }
 
     const access_token = this.jwtService.sign({ userId: user._id, phoneNumber: user.phoneNumber, role: UserRole.NCZ });
     return { access_token };
   }
 
-  async register(user: Citizen): Promise<AuthResponseDto> {
-    const existedUser = await this.citizenService.findByPhone(user.phoneNumber);
-    if (existedUser) {
-      throw new BadRequestException('Phone Number already registered');
-    }
-    await this.citizenService.create(user);
-    return this.login({ phoneNumber: user.phoneNumber });
+  async register(credential: AuthCredentialDto): Promise<AuthResponseDto> {
+    // const existedUser = await this.citizenService.findByPhone(credential.phoneNumber);
+    // if (existedUser) {
+    //   throw new BadRequestException('Phone Number already registered');
+    // }
+    await this.citizenService.create(credential);
+    return this.login({ phoneNumber: credential.phoneNumber });
   }
 }

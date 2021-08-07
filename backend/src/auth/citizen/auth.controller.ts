@@ -16,9 +16,9 @@ export class AuthController {
     return this.authService.login(credential);
   }
 
-  @PublicAPI()
-  @Post('register')
-  async register(@Body() credential: AuthCredentialDto) {
-    return this.authService.register(credential);
-  }
+  // @PublicAPI()
+  // @Post('register')
+  // async register(@Body() credential: AuthCredentialDto) {
+  //   return this.authService.register(credential);
+  // }
 }
