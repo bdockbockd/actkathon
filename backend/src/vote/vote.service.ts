@@ -22,11 +22,11 @@ export class VoteService {
     private readonly reportService: ReportService,
   ) {}
 
-  async getVotedReport(voterId: string): Promise<Report[]> {
+  async getVotedReport(voterId: string) {
     const citizen: Citizen = await this.citizenService.findById(voterId);
     // TODO add date filter functionality
-    const votes = await this.voteModel.find({ voter: citizen }).populate('report').exec();
-    return votes.map((vote) => vote.report as Report);
+    const votes = await this.voteModel.find({ voter: citizen }).populate('report').select({ 'report' : 1}).exec();
+    return votes.map((obj)=> obj.report)
   }
 
   async getVoteAndReport(voterId: string, reportId: string) {

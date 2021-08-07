@@ -14,7 +14,7 @@ export class VoteController {
   constructor(private readonly voteService: VoteService) {}
 
   @Roles(UserRole.NCZ)
-  @Get('votedReport/:id')
+  @Get('votedReport')
   async vote(@UserId() userId: string) {
     //   Check user already vote or not
     return this.voteService.getVotedReport(userId);
