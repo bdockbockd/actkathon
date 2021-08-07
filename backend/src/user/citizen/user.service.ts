@@ -32,6 +32,5 @@ export class CitizenService {
     const newUser = new this.citizenModel(user);
     return newUser.save();
   }
-
   
 }

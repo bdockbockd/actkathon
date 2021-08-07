@@ -16,6 +16,12 @@ export class Report {
   @Prop({ required: true, type: ReverseGeocodeDto })
   location: Partial<ReverseGeocodeDto>;
 
+//   @Prop()
+//   location: Partial<>
+
+  @Prop({ required: true })
+
+
   @Prop({ required: true, type: String })
   topic: string;
 
@@ -34,17 +40,21 @@ export class Report {
   @Prop({ required: true, type: String })
   longitude: string;
 
-  @Prop({ required: true, ref: 'Rep' })
+  @Prop({ required: true, type: mongoose.Schema.Types.ObjectId,  ref :'Rep' })
   maintainer: Rep;
 
-  @Prop({ required: true, ref: 'Citizen' })
+  @Prop({ required: true, type: mongoose.Schema.Types.ObjectId,  ref :'Citizen' })
   creator: Citizen;
 
   @Prop({ default: 0, type: Number })
   vote: number;
 
+  @Prop({ required: true, default: 'สยาม' })
+  locationName: string;
+
   @Prop({ type: String })
-  imageURL: string;
+  imaegFile: string;
+
 }
 
 export const ReportSchema = SchemaFactory.createForClass(Report);

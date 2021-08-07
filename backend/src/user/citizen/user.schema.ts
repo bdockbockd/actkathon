@@ -14,6 +14,7 @@ export class Citizen {
   @ApiProperty({ required: true, default: '+66918814300' })
   @Prop({ required: true, type: String, unique: true })
   phoneNumber: string;
+
 }
 
 export const CitizenSchema = SchemaFactory.createForClass(Citizen);

@@ -61,4 +61,8 @@ export class ReportService {
       { $sort: { count: -1 } },
     ]);
   }
+
+  findById(id: string): Promise<Report> {
+    return this.reportModel.findById(id).exec();
+  }
 }

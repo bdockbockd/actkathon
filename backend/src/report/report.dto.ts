@@ -1,6 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsLatitude, IsLongitude, IsNotEmpty } from 'class-validator';
 export class ReportDto {
+
   @IsNotEmpty()
   @ApiProperty({ required: true, type: String })
   topic: string;
@@ -10,13 +11,17 @@ export class ReportDto {
   description: string;
 
   @IsLatitude()
-  @ApiProperty({ required: true, default: "100.53726" })
+  @ApiProperty({ required: true, default: '100.53726' })
   latitude: string;
 
   @IsLongitude()
-  @ApiProperty({ required: true, default: "13.72427" })
+  @ApiProperty({ required: true, default: '13.72427' })
   longitude: string;
 
-  //   @ApiPropertyOptional()
-  //   maintainerId?: string;
+  @ApiProperty({ required: true, default: 'สยาม' })
+  locationName: string;
+
+  @ApiProperty()
+  imageFile: string;
+
 }

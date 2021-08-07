@@ -29,8 +29,11 @@ export class ReportController {
   @Roles(UserRole.NCZ)
   @Post('vote/:id')
   async vote(@UserId() userId: string, @Param('id') reportId: string) {
+    //   Check user already vote or not
     return this.reportService.vote(reportId, userId);
   }
+
+
 
   @Roles(UserRole.NCZ)
   @Post('create')
@@ -40,7 +43,7 @@ export class ReportController {
   }
 
   // Report that we have involved with
-  @Roles(UserRole.NCZ, UserRole.Representative)
+  @Roles( UserRole.NCZ, UserRole.Representative )
   @Get('ownedReport')
   async fetchOwnedReport(@User() user: JWTPayloadDto) {
     if (user.role == UserRole.NCZ) {
@@ -50,6 +53,7 @@ export class ReportController {
       const rep = await this.representativeService.findById(user.userId);
       return this.reportService.getReports({ maintainer: rep });
     }
+
   }
 
   @PublicAPI()
