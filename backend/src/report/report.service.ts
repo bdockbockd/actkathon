@@ -13,7 +13,6 @@ import { Report, ReportDocument } from './report.schema';
 // const INVITE_BASE_URL = 'https://zenbrief.com/invite';
 @Injectable()
 export class ReportService {
-
   constructor(
     @InjectModel(Report.name) private reportModel: Model<ReportDocument>,
     private readonly citizenService: CitizenService,
@@ -57,6 +56,15 @@ export class ReportService {
       },
       { $group: { _id: '$maintainer', count: { $sum: 1 } } },
       { $sort: { count: -1 } },
+      {
+        $lookup: {
+          from: 'reps',
+          localField: '_id',
+          foreignField: '_id',
+          as: 'reps',
+        },
+      },
+      { $unwind: '$reps' },
     ]);
   }
 
